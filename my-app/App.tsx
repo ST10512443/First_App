@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <View>
 
-      <Text>Welcome to my app</Text>
+      <Text style={styles.welcomeTxt}>Welcome to my app!</Text>
+    
 
       <Text>Enter your Name</Text>
       <TextInput placeholder="Jane"/>
