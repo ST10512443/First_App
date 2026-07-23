@@ -8,18 +8,17 @@ export default function App() {
       <Image style={styles.MainImageFlower}
       source={require('./Images/flower.jpg')}/>
       
-
       <Text style={styles.welcomeTxt}>Welcome to my app!</Text>
-    
 
-      <Text style={styles.labelTxt}>Enter your Name</Text>
-      <TextInput placeholder="Jane"/>
-      <View style={styles.line}></View>
+      <View style={styles.InputFlex}>
+        <Text style={styles.labelTxt}>Enter your Name</Text>
+        <TextInput placeholder="Jane"/>
+        <View style={styles.line}></View>
 
-
-      <Text style={styles.labelTxt}>Enter your Surname</Text>
-      <TextInput placeholder="Doe"/>
-      <View style={styles.line}></View>
+        <Text style={styles.labelTxt}>Enter your Surname</Text>
+        <TextInput placeholder="Doe"/>
+        <View style={styles.line}></View>
+      </View>
 
       <Button title="Add User"/>
       <StatusBar style="auto" />
@@ -55,5 +54,10 @@ const styles = StyleSheet.create({
     width:250,
     height:250,
     marginTop:20,
-  }
+  },
+
+  InputFlex:{
+    flexDirection:'row',
+    marginTop: 30,
+  },
 });
