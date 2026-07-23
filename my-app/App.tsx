@@ -8,9 +8,12 @@ export default function App() {
       <Text style={styles.welcomeTxt}>Welcome to my app!</Text>
     
 
-      <Text>Enter your Name</Text>
+      <Text style={styles.labelTxt}>Enter your Name</Text>
       <TextInput placeholder="Jane"/>
-      <Text>Enter your Surname</Text>
+
+      <View style={styles.line}></View>
+
+      <Text style={styles.labelTxt}>Enter your Surname</Text>
       <TextInput placeholder="Doe"/>
 
 
@@ -27,5 +30,16 @@ const styles = StyleSheet.create({
    fontWeight: 'bold',
    fontSize: 30,
    textAlign: 'center'
+  },
+
+  labelTxt: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+
+  line: {
+    height: 1,
+    backgroundColor: "black",
+    marginVertical: 15,
   },
 });
