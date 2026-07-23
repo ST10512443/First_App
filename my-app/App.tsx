@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
 
   MainImageFlower:{
     paddingTop: 50,
+    justifyContent:'center',
     alignItems: 'center',
     width:250,
     height:250,
