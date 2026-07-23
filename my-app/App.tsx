@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
 
   labelTxt: {
     fontWeight: "bold",
-    fontSize: 18,
   },
 
   line: {
