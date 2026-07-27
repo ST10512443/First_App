@@ -7,6 +7,8 @@ export default function App() {
 const [Name,setName] = useState('');
 const [Surname,setSurname] = useState('');
 
+console.log("App works!");
+
   return (
     <View>
 
@@ -18,14 +20,24 @@ const [Surname,setSurname] = useState('');
       <View style={styles.InputFlex}>
         <Text style={styles.labelTxt}>Enter your Name</Text>
         <TextInput style={styles.InputBoxTxtline} 
-        placeholder="Jane"/>
+        placeholder="Jane"
+        onChangeText={newText => setName(newText)} />
 
         <Text style={styles.labelTxt}>Enter your Surname</Text>
         <TextInput style={styles.InputBoxTxtline}
-        placeholder="Doe"/>
+        placeholder="Doe"
+        onChangeText={newText => setSurname(newText)} />
       </View>
 
-      <Button title="Add User"/>
+      <Button title="Add User"
+        onPress={()=>(
+          console.log("Name: " + Name + "    Surname:" + Surname)
+
+        )}
+      />
+
+
+
       <StatusBar style="auto" />
 
     </View>
