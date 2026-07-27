@@ -1,7 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
+import{ useState } from 'react';
 
 export default function App() {
+
+const [Name,setName] = useState('');
+const [Surname,setSurname] = useState('');
+
   return (
     <View>
 
@@ -12,12 +17,12 @@ export default function App() {
 
       <View style={styles.InputFlex}>
         <Text style={styles.labelTxt}>Enter your Name</Text>
-        <TextInput placeholder="Jane"/>
-        <View style={styles.line}></View>
+        <TextInput style={styles.InputBoxTxtline} 
+        placeholder="Jane"/>
 
         <Text style={styles.labelTxt}>Enter your Surname</Text>
-        <TextInput placeholder="Doe"/>
-        <View style={styles.line}></View>
+        <TextInput style={styles.InputBoxTxtline}
+        placeholder="Doe"/>
       </View>
 
       <Button title="Add User"/>
@@ -40,10 +45,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  line: {
-    height: 1,
-    backgroundColor: "black",
-    marginVertical: 15,
+  InputBoxTxtline: {
+   borderBottomWidth: 1,
   },
 
   MainImageFlower:{
@@ -56,7 +59,8 @@ const styles = StyleSheet.create({
   },
 
   InputFlex:{
-    flexDirection:'row',
+    //flexDirection:'row',
     marginTop: 30,
+    justifyContent: 'space-evenly',
   },
 });
