@@ -1,15 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
 import{ useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default function App() {
 
-const [Name,setName] = useState('');
-const [Surname,setSurname] = useState('');
+const Stack = createNativeStackNavigator();
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name= "Home" component={MainScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+function MainScreen(){
+  const [Name,setName] = useState('');
+  const [Surname,setSurname] = useState('');
 
 console.log("App works!");
 
-  return (
+  return(
     <View>
 
       <Image style={styles.MainImageFlower}
@@ -32,16 +46,12 @@ console.log("App works!");
       <Button title="Add User"
         onPress={()=>(
           console.log("Name: " + Name + "    Surname:" + Surname)
-
-        )}
-      />
-
-
+        )} />
 
       <StatusBar style="auto" />
 
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
