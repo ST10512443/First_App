@@ -35,11 +35,15 @@ console.log("App works!");
         <Text style={styles.labelTxt}>Enter your Name</Text>
         <TextInput style={styles.InputBoxTxtline} 
         placeholder="Jane"
+        autoCapitalize="words"
+        autoComplete="given-name"
         onChangeText={newText => setName(newText)} />
 
         <Text style={styles.labelTxt}>Enter your Surname</Text>
         <TextInput style={styles.InputBoxTxtline}
         placeholder="Doe"
+        autoCapitalize="words"
+        autoComplete="family-name"
         onChangeText={newText => setSurname(newText)} />
       </View>
 
@@ -73,11 +77,10 @@ const styles = StyleSheet.create({
 
   MainImageFlower:{
     paddingTop: 50,
-    justifyContent:'center',
-    alignItems: 'center',
     width:250,
     height:250,
     marginTop:20,
+    alignSelf: 'center',
   },
 
   InputFlex:{
