@@ -2,26 +2,47 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
 import{ useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator , NativeStackScreenProps} from '@react-navigation/native-stack';
+
+
+type RootStackParamList = {
+    Home: undefined,
+    View:{
+      NameSend: string;
+      SurnameSend: string;
+    };
+  };
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+type MainScreenProps = NativeStackScreenProps<
+RootStackParamList,
+'Home'
+>;
+
+type ViewDetailsProps = NativeStackScreenProps<
+RootStackParamList,
+'View'
+>;
 
 export default function App() {
-
-const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name= "Home" component={MainScreen}/>
+        <Stack.Screen name= "View" component={ViewDetails}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-function MainScreen(){
-  const [Name,setName] = useState('');
-  const [Surname,setSurname] = useState('');
+function MainScreen({ navigation }: MainScreenProps){
 
-console.log("App works!");
+  const [Name, setName] = useState('');
+  const [Surname, setSurname] = useState('');
+
+  console.log("App works!");
 
   return(
     <View>
@@ -48,15 +69,36 @@ console.log("App works!");
       </View>
 
       <Button title="Add User"
-        onPress={()=>(
-          console.log("Name: " + Name + "    Surname:" + Surname)
-        )} />
+        onPress={()=> {
+          navigation.navigate('View' ,{
+            NameSend:Name,
+            SurnameSend:Surname
+          });
+        }} />
 
       <StatusBar style="auto" />
-
     </View>
-  )
+  );
 }
+
+
+ function ViewDetails({navigation ,route}: ViewDetailsProps){
+
+    const NameGet = route.params.NameSend;
+    const SurnameGet = route.params.SurnameSend;
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+      <Text> Name: {NameGet} Surname: {SurnameGet} </Text>
+    </View>
+  );
+}
+
 
 const styles = StyleSheet.create({
   welcomeTxt : {
