@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
-import{ useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, Image, SafeAreaView, ScrollView, Animated , ViewStyle, StyleProp } from 'react-native';
+import{ useState, useRef, useEffect, ReactNode } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator , NativeStackScreenProps} from '@react-navigation/native-stack';
 
@@ -46,13 +46,17 @@ function MainScreen({ navigation }: MainScreenProps){
 
   return(
     <View>
+      <SafeAreaView>
+        <ScrollView>
 
       <Image style={styles.MainImageFlower}
       source={require('./Images/flower.jpg')}/>
       
       <Text style={styles.welcomeTxt}>Welcome to my app!</Text>
 
-      <View style={styles.InputFlex}>
+      <FadeInView>
+      <View 
+        style={styles.InputFlex}>
         <Text style={styles.labelTxt}>Enter your Name</Text>
         <TextInput style={styles.InputBoxTxtline} 
         placeholder="Jane"
@@ -67,6 +71,7 @@ function MainScreen({ navigation }: MainScreenProps){
         autoComplete="family-name"
         onChangeText={newText => setSurname(newText)} />
       </View>
+      </FadeInView>
 
       <Button title="Add User"
         onPress={()=> {
@@ -77,10 +82,11 @@ function MainScreen({ navigation }: MainScreenProps){
         }} />
 
       <StatusBar style="auto" />
+      </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }
-
 
  function ViewDetails({navigation ,route}: ViewDetailsProps){
 
@@ -97,6 +103,35 @@ function MainScreen({ navigation }: MainScreenProps){
       <Text> Name: {NameGet} Surname: {SurnameGet} </Text>
     </View>
   );
+}
+
+interface FadeInViewProps{
+  children: ReactNode;
+  style?: StyleProp<ViewStyle>;
+}
+
+const FadeInView = ({children,style}: FadeInViewProps) => {
+  const FadeAnim = useRef( new Animated.Value(0)).current
+
+  useEffect(() => {
+    Animated.timing(
+      FadeAnim,
+      {
+        toValue: 1,
+        duration: 4000,
+        useNativeDriver: false
+      }
+    ).start();
+  }, [FadeAnim])
+
+  return(
+    <Animated.View style = {{ 
+      ...(style as object),
+      opacity: FadeAnim
+    }}>
+      {children}
+    </Animated.View>
+  )
 }
 
 
