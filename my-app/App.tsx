@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, Button, Image, SafeAreaView, ScrollV
 import{ useState, useRef, useEffect, ReactNode } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator , NativeStackScreenProps} from '@react-navigation/native-stack';
+import { RadioButton } from 'react-native-paper';
 
 
 type RootStackParamList = {
@@ -92,17 +93,58 @@ function MainScreen({ navigation }: MainScreenProps){
 
     const NameGet = route.params.NameSend;
     const SurnameGet = route.params.SurnameSend;
+    const [selectedValue, setSelecetdValue] = useState('0');
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-      <Text> Name: {NameGet} Surname: {SurnameGet} </Text>
+  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+
+    <View style={{ flex: 0, alignItems: 'center', justifyContent: 'center' }}>
+      <Text style={{ fontWeight: 'bold', fontSize: 25 }}>  Welcome Name: {NameGet} Surname: {SurnameGet} ! </Text>
+      <Text>Please choose a language:</Text>
     </View>
-  );
+
+    <View style={styles.radioContainer}>
+      <View style={styles.radioGroup}>
+
+        <View style={styles.radioButton}>
+          <RadioButton.Android
+          value="1"
+          status={selectedValue == "1" ? 'checked' : 'unchecked'}
+
+          onPress = {() => setSelecetdValue('1')}
+          color= "#ff33cc"
+         />
+         <Text style={styles.radioLabel}> React Native </Text>
+        </View>
+
+        <View style={styles.radioButton}>
+          <RadioButton.Android
+          value="1"
+          status={selectedValue == "1" ? 'checked' : 'unchecked'}
+
+          onPress = {() => setSelecetdValue('2')}
+          color= "#ff33cc"
+         />
+         <Text style={styles.radioLabel}>Kotlin </Text>
+        </View>
+
+        <View style={styles.radioButton}>
+          <RadioButton.Android
+          value="1"
+          status={selectedValue == "1" ? 'checked' : 'unchecked'}
+
+          onPress = {() => setSelecetdValue('3')}
+          color= "#ff33cc"
+         />
+         <Text style={styles.radioLabel}> CSS and HTML </Text>
+        </View>
+
+        
+      </View>
+    </View>
+
+  </View>
+);
 }
 
 interface FadeInViewProps{
@@ -164,5 +206,43 @@ const styles = StyleSheet.create({
     //flexDirection:'row',
     marginTop: 30,
     justifyContent: 'space-evenly',
+  },
+
+  radioContainer: {
+    flex:0,
+    backgroundColor:'#d966ff',
+     justifyContent: 'center',
+     alignItems:'center',
+    },
+
+  radioButton:{
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
+  radioLabel:{
+    marginLeft: 5,
+    fontSize: 15,
+    color: '#8c8c8c'
+  },
+
+  radioGroup:{
+    flexDirection:'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginTop: 20,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    padding: 15,
+    elevation: 5,
+    shadowColor:' #66004d',
+
+    shadowOffset: {
+      width:0,
+      height:1,
+    },
+
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
   },
 });
