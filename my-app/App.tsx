@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Button, Image, SafeAreaView, ScrollView, Animated , ViewStyle, StyleProp } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Image, SafeAreaView, ScrollView, Animated , ViewStyle, StyleProp, ImageSourcePropType } from 'react-native';
 import{ useState, useRef, useEffect, ReactNode } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator , NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -15,6 +15,19 @@ type RootStackParamList = {
   };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+function isEmpty(value: any) {
+  return (
+    // null or undefined
+    (value == null) ||
+
+    // has length and it's zero
+    (value.hasOwnProperty('length') && value.length === 0) ||
+
+    // is an Object and has no keys
+    (value.constructor === Object && Object.keys(value).length === 0)
+  );
+}
 
 type MainScreenProps = NativeStackScreenProps<
 RootStackParamList,
@@ -42,6 +55,7 @@ function MainScreen({ navigation }: MainScreenProps){
 
   const [Name, setName] = useState('');
   const [Surname, setSurname] = useState('');
+  const [Error, setError] = useState(false);
 
   console.log("App works!");
 
@@ -56,8 +70,12 @@ function MainScreen({ navigation }: MainScreenProps){
       <Text style={styles.welcomeTxt}>Welcome to my app!</Text>
 
       <FadeInView>
-      <View 
-        style={styles.InputFlex}>
+
+      <Text style={Error ? styles.red : styles.blank}>
+      {Error ? "Please add all the fields" : ""}
+      </Text>
+
+      <View style={styles.InputFlex}>
         <Text style={styles.labelTxt}>Enter your Name</Text>
         <TextInput style={styles.InputBoxTxtline} 
         placeholder="Jane"
@@ -74,13 +92,31 @@ function MainScreen({ navigation }: MainScreenProps){
       </View>
       </FadeInView>
 
-      <Button title="Add User"
-        onPress={()=> {
-          navigation.navigate('View' ,{
-            NameSend:Name,
-            SurnameSend:Surname
-          });
-        }} />
+     <Button
+  title="Add User"
+  onPress={() => {
+
+    if ((isEmpty(Name) == false) && (isEmpty(Surname) == false))
+    {
+      navigation.navigate('View', {
+        NameSend: Name,
+        SurnameSend: Surname
+      });
+
+      console.log(
+        "Name: " + Name +
+        " Surname: " + Surname
+      );
+
+      setError(false);
+    }
+    else
+    {
+      setError(true);
+    }
+
+  }}
+/>
 
       <StatusBar style="auto" />
       </ScrollView>
@@ -93,7 +129,8 @@ function MainScreen({ navigation }: MainScreenProps){
 
     const NameGet = route.params.NameSend;
     const SurnameGet = route.params.SurnameSend;
-    const [selectedValue, setSelecetdValue] = useState('0');
+    const [selectedValue, setSelectedValue] = useState('0');
+    const [ImageBlock, setImage] = useState<ImageSourcePropType | undefined>(undefined);
 
   return (
   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -106,42 +143,87 @@ function MainScreen({ navigation }: MainScreenProps){
     <View style={styles.radioContainer}>
       <View style={styles.radioGroup}>
 
-        <View style={styles.radioButton}>
-          <RadioButton.Android
-          value="1"
-          status={selectedValue == "1" ? 'checked' : 'unchecked'}
+    <View style={styles.radioButton}>
+      <RadioButton.Android
+        value="1"
+        status={selectedValue == "1" ? 'checked' : 'unchecked'}
+        onPress={() => setSelectedValue('1')}
+        color="#007BFF"
+      />
+      <Text style={styles.radioLabel}>React Native</Text>
+     </View>
 
-          onPress = {() => setSelecetdValue('1')}
-          color= "#ff33cc"
-         />
-         <Text style={styles.radioLabel}> React Native </Text>
-        </View>
+    <View style={styles.radioButton}>
+      <RadioButton.Android
+        value="2"
+        status={selectedValue == "2" ? 'checked' : 'unchecked'}
+        onPress={() => setSelectedValue('2')}
+        color="#007BFF"
+      />
+    <Text style={styles.radioLabel}>Kotlin</Text>
+    </View>
 
-        <View style={styles.radioButton}>
-          <RadioButton.Android
-          value="1"
-          status={selectedValue == "1" ? 'checked' : 'unchecked'}
-
-          onPress = {() => setSelecetdValue('2')}
-          color= "#ff33cc"
-         />
-         <Text style={styles.radioLabel}>Kotlin </Text>
-        </View>
-
-        <View style={styles.radioButton}>
-          <RadioButton.Android
-          value="1"
-          status={selectedValue == "1" ? 'checked' : 'unchecked'}
-
-          onPress = {() => setSelecetdValue('3')}
-          color= "#ff33cc"
-         />
-         <Text style={styles.radioLabel}> CSS and HTML </Text>
-        </View>
-
+    <View style={styles.radioButton}>
+      <RadioButton.Android
+        value="3"
+        status={selectedValue == "3" ? 'checked' : 'unchecked'}
+        onPress={() => setSelectedValue('3')}
+        color="#007BFF"
+      />
+    <Text style={styles.radioLabel}>HTML and CSS</Text>
+    </View>
         
       </View>
     </View>
+
+    <View style={{ flex: 1 }}>
+
+  <Text
+    style={{
+      fontWeight: 'bold',
+      flex: 0,
+      paddingTop: 40,
+      justifyContent: 'center',
+      textAlign: 'center',
+      alignItems: 'center'
+    }}
+  >
+    View what your favourite programming language says about you :
+  </Text>
+
+  <Button
+    title="Process"
+    onPress={() => {
+
+   switch (selectedValue){
+  case "1":
+    setImage(require('./Images/ReactNative.png'));
+    break;
+
+  case "2":
+    setImage(require('./Images/kotlin.webp'));
+    break;
+
+  case "3":
+    setImage(require('./Images/HtmlAndCss.png'));
+    break;
+
+  default:
+    setImage(undefined);
+  }
+    }}
+  />
+
+  <View style={styles.container}>
+    {ImageBlock && (
+      <Image
+        source={ImageBlock}
+        style={styles.ViewImage}
+      />
+    )}
+  </View>
+
+</View>
 
   </View>
 );
@@ -185,6 +267,17 @@ const styles = StyleSheet.create({
    fontSize: 30,
    textAlign: 'center'
   },
+
+  red: {
+  color: 'red',
+  fontWeight: 'bold',
+  fontSize: 26,
+  textAlign: 'center',
+},
+
+blank: {
+  fontSize: 0,
+},
 
   labelTxt: {
     fontWeight: "bold",
@@ -235,7 +328,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 15,
     elevation: 5,
-    shadowColor:' #66004d',
+    shadowColor:'#66004d',
 
     shadowOffset: {
       width:0,
@@ -245,4 +338,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3,
   },
+
+  container: {
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+
+ViewImage: {
+  width: 350,
+  height: 350,
+  alignContent: 'center',
+},
+
 });
