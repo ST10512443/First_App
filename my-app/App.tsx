@@ -12,6 +12,7 @@ type RootStackParamList = {
       NameSend: string;
       SurnameSend: string;
     };
+    ListSkills: undefined;
   };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -46,6 +47,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name= "Home" component={MainScreen}/>
         <Stack.Screen name= "View" component={ViewDetails}/>
+        <Stack.Screen name= "ListSkills" component={ListSkills}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -229,15 +231,103 @@ default:
 
   <View style={styles.container}>
    <Image
-  source={blockArray[iSelected]}
-  style={styles.ViewImage}
+    source={blockArray[iSelected]}
+    style={styles.ViewImage}
 />
-  </View>
+</View>
+
+<Button
+  title="Go to Skills"
+  onPress={() => navigation.navigate('ListSkills')}
+/>
 
 </View>
 
-  </View>
+</View>
 );
+}
+
+function ListSkills({navigation}: any){
+
+  const [Skills, setSkills] = useState<string[]>([]);
+  const [txtSkill, setSkill] = useState('');
+
+  const displaySkills = () => {
+
+    let arrOutput = [];
+
+    for(let i = 0; i < Skills.length; i++)
+    {
+      arrOutput.push(
+        <Text key={i} style={styles.skillText}>
+          {Skills[i]}
+        </Text>
+      );
+    }
+
+    return arrOutput;
+  }
+
+
+  return(
+    <View style={styles.appContainer}>
+
+      <SafeAreaView>
+
+      <ScrollView>
+
+      <View style={styles.BannerImage}>
+        <Image
+        style={styles.ImageBanner}
+        source={require('./Images/Skills.webp')}
+        />
+      </View>
+
+
+      <Text style={styles.welcomeTxt}>
+        List your skills!
+      </Text>
+
+
+      <View style={styles.inputContainer}>
+
+      <TextInput
+      style={styles.textInput}
+      placeholder="Your skills"
+      onChangeText={newText => setSkill(newText)}
+      value={txtSkill}
+      />
+
+
+   <Button
+  title="Add Skill"
+  onPress={() => {
+
+    if (txtSkill !== "")
+    {
+      setSkills([...Skills, txtSkill]);
+      setSkill("");
+    }
+
+  }}
+/>
+
+      </View>
+
+
+      <View style={styles.skillContainer}>
+
+        {displaySkills()}
+
+      </View>
+
+
+      </ScrollView>
+
+      </SafeAreaView>
+
+    </View>
+  );
 }
 
 interface FadeInViewProps{
@@ -359,6 +449,57 @@ ViewImage: {
   width: 350,
   height: 350,
   alignContent: 'center',
+},
+
+appContainer:{
+  flex:1,
+  padding:50,
+  paddingHorizontal:16,
+},
+
+
+BannerImage:{
+  height:350,
+  alignContent:'center',
+},
+
+
+ImageBanner:{
+  width:'100%',
+  height:200,
+},
+
+
+inputContainer:{
+  flex:1,
+  flexDirection:'row',
+  justifyContent:'space-between',
+  alignItems:'center',
+  marginBottom:24,
+  borderBottomWidth:1,
+  borderBottomColor:'#cccccc',
+},
+
+
+textInput:{
+  borderWidth:1,
+  borderColor:'#cccccc',
+  width:'70%',
+  margin:8,
+  padding:8,
+},
+
+
+skillContainer:{
+  flex:5,
+},
+
+
+skillText:{
+  fontSize:15,
+  marginVertical:5,
+  borderBottomWidth:0.5,
+  borderBottomColor:'#000000',
 },
 
 });
