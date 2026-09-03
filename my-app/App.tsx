@@ -130,7 +130,15 @@ function MainScreen({ navigation }: MainScreenProps){
     const NameGet = route.params.NameSend;
     const SurnameGet = route.params.SurnameSend;
     const [selectedValue, setSelectedValue] = useState('0');
-    const [ImageBlock, setImage] = useState<ImageSourcePropType | undefined>(undefined);
+    //const [ImageBlock, setImage] = useState<ImageSourcePropType | undefined>(undefined);
+    const [iSelected, setIntValue] = useState(0);
+
+  const [blockArray] = useState<ImageSourcePropType[]>([
+  undefined,
+  require('./Images/ReactNative.png'),
+  require('./Images/kotlin.webp'),
+  require('./Images/HtmlAndCss.png')
+  ]);
 
   return (
   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -192,35 +200,38 @@ function MainScreen({ navigation }: MainScreenProps){
   </Text>
 
   <Button
-    title="Process"
-    onPress={() => {
+  title="Process"
+  onPress={() => {
+    setIntValue(Number(selectedValue));
+  }}
+/>
 
-   switch (selectedValue){
-  case "1":
-    setImage(require('./Images/ReactNative.png'));
-    break;
+{/* 
+switch (selectedValue){
 
-  case "2":
-    setImage(require('./Images/kotlin.webp'));
-    break;
+case "1":
+  setImage(require('./Images/ReactNative.png'));
+  break;
 
-  case "3":
-    setImage(require('./Images/HtmlAndCss.png'));
-    break;
+case "2":
+  setImage(require('./Images/kotlin.webp'));
+  break;
 
-  default:
-    setImage(undefined);
-  }
-    }}
-  />
+case "3":
+  setImage(require('./Images/HtmlAndCss.png'));
+  break;
+
+default:
+  setImage(undefined);
+}
+*/}
+    
 
   <View style={styles.container}>
-    {ImageBlock && (
-      <Image
-        source={ImageBlock}
-        style={styles.ViewImage}
-      />
-    )}
+   <Image
+  source={blockArray[iSelected]}
+  style={styles.ViewImage}
+/>
   </View>
 
 </View>
